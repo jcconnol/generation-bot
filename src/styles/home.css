@@ -1,0 +1,22 @@
+.center-header {
+    text-align: center;
+    justify-content: center;
+}
+
+.gen-dropdown-menu {
+    width: fit-content;
+    text-align: left;
+}
+
+.gen-option-dropdown {
+    width: fit-content;
+    display: inline-flex;
+    padding-left: 1%;
+}
+
+.gen-text-container {
+    width: fit-content;
+    display: flex;
+    margin: auto;
+    justify-content: center;
+}
