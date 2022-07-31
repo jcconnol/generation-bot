@@ -5,12 +5,12 @@ import styles from 'react-dropdown/style.css';
 import "../styles/home.css"
 
 function Home() {
-    const [textOption, setTextOpt] = useState(true)
-
     const options = [
         'Poem', 'Tweet', 'Webpage'
     ];
-    const defaultOption = options[0];
+
+    var defaultOption = options[0];
+    const [textOption, setTextOpt] = useState(defaultOption)
 
     function onSelect(event) {
         setTextOpt(event.value)
