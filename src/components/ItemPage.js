@@ -20,7 +20,7 @@ function Items({ currentItems }) {
 
 function PaginatedItems({ itemsPerPage, items }) {
     const [currentItems, setCurrentItems] = useState(items);
-    const [pageCount, setPageCount] = useState(2);
+    const [pageCount, setPageCount] = useState(items.length);
     const [itemOffset, setItemOffset] = useState(0);
 
     function buildPagination() {
@@ -52,6 +52,8 @@ function PaginatedItems({ itemsPerPage, items }) {
         <>
             <Items currentItems={currentItems} />
             {pageCount < 1 ?
+                null
+                :
                 <ReactPaginate
                     breakLabel="..."
                     nextLabel="next >"
@@ -63,8 +65,6 @@ function PaginatedItems({ itemsPerPage, items }) {
                     itemClass="page-item"
                     linkClass="page-link"
                 />
-                :
-                null
             }
         </>
     );
