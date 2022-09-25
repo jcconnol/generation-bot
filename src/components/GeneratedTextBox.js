@@ -8,30 +8,33 @@ function GeneratedTextBox({ textOption }) {
     let [items, setItems] = useState([]);
 
     const fetchGeneratedText = async () => {
-        switch (textOption) {
-            case 'Tweet':
-                textCategory = "tweet"
-                break
-            case 'Rap Song':
-              textCategory = "rapSong"
+      console.log("run!")
+      console.log(textOption)
+      console.log(textCategory)
+      switch (textOption) {
+          case 'Tweet':
+              textCategory = "tweet"
               break
-            case 'Poem':
-                textCategory = "poem"
-                break
-            case 'Webpage':
-                textCategory = "site"
-                break
-            default:
-                textCategory = null
-                break
-        }
+          case 'Rap Song':
+            textCategory = "rapSong"
+            break
+          case 'Poem':
+              textCategory = "poem"
+              break
+          case 'Webpage':
+              textCategory = "site"
+              break
+          default:
+              textCategory = null
+              break
+      }
 
         const params = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ 
                 "category": textCategory,
-                "wordCount": 45
+                "wordCount": 45 
              })
         }
 
@@ -40,7 +43,8 @@ function GeneratedTextBox({ textOption }) {
             return response.json()
           })
           .then(data => {
-            console.log("api call")
+            console.log(data)
+            console.log(data.phrases)
             setItems(data.phrases)
             setLoading(false);
           })

@@ -5,6 +5,7 @@ import Home from "./pages/Home";
 import Submit from "./pages/Submit";
 import Contact from "./pages/Contact";
 import NoPage from "./pages/NoPage";
+import HowItWorks from "./pages/how-it-works"
 
 export default function App() {
   return (
@@ -14,6 +15,7 @@ export default function App() {
           <Route index element={<Home />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/submit" element={<Submit />} />
+          <Route path="/how-it-works" element={<HowItWorks />} />
           <Route path="*" element={<NoPage />} />
         </Route>
       </Routes>

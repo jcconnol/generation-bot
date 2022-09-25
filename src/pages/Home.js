@@ -16,6 +16,10 @@ function Home() {
         setTextOpt(event.value)
     }
 
+    function onClickRegenerate() {
+        setTextOpt(textOption)
+    }
+
     return (
         <div>
             <h1 className='center-header'>
@@ -27,6 +31,9 @@ function Home() {
                     onChange={onSelect}
                     value={defaultOption} />
             </h1>
+            <div className='regerate-button-container'>
+                <button className='regerate-button' onClick={onClickRegenerate}>Re-generate</button>
+            </div>
             <div className='gen-text-container'>
                 <GeneratedTextBox textOption={textOption} />
             </div>

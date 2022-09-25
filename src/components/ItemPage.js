@@ -2,14 +2,13 @@ import React, { useEffect, useState } from 'react';
 import ReactPaginate from 'react-paginate';
 //import "../styles/pagination.css"
 
-function Items({ currentItems }) {
-    console.log(currentItems)
+function Items({ currentItems, itemOffset }) {
     return (
     <>
       {currentItems &&
         currentItems.map((item, index) => (
           <div>
-            <h3>Item #{index}</h3>
+            <h3>Item #{itemOffset+1}</h3>
             <br />
             {item}
           </div>
@@ -24,15 +23,8 @@ function PaginatedItems({ itemsPerPage, items }) {
     const [itemOffset, setItemOffset] = useState(0);
 
     function buildPagination() {
-        console.log("paginated...")
-
         const endOffset = itemOffset + itemsPerPage;
-
-        console.log("offset: "+itemOffset)
-        console.log("itemsPerPage: "+itemsPerPage)
-        console.log("currentItems: "+currentItems)
-        console.log(Math.ceil(items.length / itemsPerPage))
-
+    
         setCurrentItems(items.slice(itemOffset, endOffset));
         setPageCount(Math.ceil(items.length / itemsPerPage));
     }
@@ -50,7 +42,7 @@ function PaginatedItems({ itemsPerPage, items }) {
 
     return (
         <>
-            <Items currentItems={currentItems} />
+            <Items currentItems={currentItems} itemOffset={itemOffset} />
             {pageCount < 1 ?
                 null
                 :
