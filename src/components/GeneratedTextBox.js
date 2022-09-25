@@ -12,6 +12,9 @@ function GeneratedTextBox({ textOption }) {
             case 'Tweet':
                 textCategory = "tweet"
                 break
+            case 'Rap Song':
+              textCategory = "rapSong"
+              break
             case 'Poem':
                 textCategory = "poem"
                 break
