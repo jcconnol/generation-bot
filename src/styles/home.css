@@ -9,7 +9,7 @@
 }
 
 .gen-option-dropdown {
-    width: fit-content;
+    width: 120%;
     display: inline-flex;
     padding-left: 1%;
 }

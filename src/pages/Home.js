@@ -6,7 +6,7 @@ import "../styles/home.css"
 
 function Home() {
     const options = [
-        'Poem', 'Tweet', 'Webpage'
+        'Poem', 'Tweet', 'Webpage', 'Rap Song'
     ];
 
     var defaultOption = options[0];

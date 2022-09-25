@@ -8,7 +8,7 @@ export default function Header(props) {
   var title = props.title;
 
   var menuItems = [
-    {name: 'Submit Text', path: '/Submit'},
+    {name: 'Submit Text', path: '/submit'},
     {name: 'Contact', path: '/contact'},
     {name: 'How  it works', path: '/how-it-works'}
   ];
