@@ -12,12 +12,14 @@ function Home() {
     var defaultOption = options[0];
     const [textOption, setTextOpt] = useState(defaultOption)
 
-    function onSelect(event) {
+    const onSelect = (event) => {
+        console.log(event.value)
         setTextOpt(event.value)
     }
 
-    function onClickRegenerate() {
-        setTextOpt(textOption)
+    const onClickRegenerate = async (event) => {
+        await setTextOpt(null)
+        await setTextOpt(textOption)
     }
 
     return (
