@@ -2,16 +2,16 @@ import React, { useEffect, useState } from 'react';
 import ShowGenText from './ShowGenText';
 import ClipLoader from "react-spinners/ClipLoader";
 
-function GeneratedTextBox({ textOption }) {
+function GeneratedTextBox(props) {
     const [textCategory, setTextCategory] = useState("");
     const [loading, setLoading] = useState(true);
-    let items = [];
+    const [generatedItems, setGeneratedItems] = useState([]);
 
     const fetchGeneratedText = async () => {
       console.log("run!")
-      console.log(textOption)
+      console.log(props.textOption)
       console.log(textCategory)
-      switch (textOption) {
+      switch (props.textOption) {
           case 'Tweet':
             setTextCategory("tweet")
             break
@@ -40,34 +40,33 @@ function GeneratedTextBox({ textOption }) {
         }
 
         console.log("making request!")
-
+        let some_items = []
         await fetch(`https://l6ai92ysdi.execute-api.us-east-2.amazonaws.com/dev/api/generate`, params)
           .then(async response => {
-            let whatever = await response.json()
-            console.log(whatever)
             return response.json()
           })
           .then(data => {
             console.log(data)
             console.log(data.phrases)
-            items = data.phrases
+            setGeneratedItems(data.phrases)
             setLoading(false);
           })
           .catch(err =>{
             console.log(err);
-            items = ['Error fetching generated text!']
+            setGeneratedItems(['Error fetching generated text!'])
             setLoading(false);
           })
-      }
+
+        }
     };
   
     useEffect(() => {
       fetchGeneratedText()
-    });
+    }, [props.textOption]);
 
     return (
         <div>
-            {loading ? <ClipLoader /> : <ShowGenText items={items} />}
+            {loading ? <ClipLoader /> : <ShowGenText items={generatedItems} />}
         </div>
     );
 }
