@@ -11,9 +11,11 @@ function Home() {
 
     var defaultOption = options[0];
     const [textOption, setTextOpt] = useState(defaultOption)
+    const [forceUpdate, setForceUpdate] = useState(true)
 
     function onSelect(event) {
         setTextOpt(event.value)
+        setForceUpdate(!forceUpdate)
     }
 
     function onClickRegenerate() {
@@ -32,10 +34,10 @@ function Home() {
                     value={defaultOption} />
             </h1>
             <div className='regerate-button-container'>
-                <button className='regerate-button' onClick={onClickRegenerate}>Re-generate</button>
+                <button className='regerate-button' onClick={onClickRegenerate}>Retrieve</button>
             </div>
             <div className='gen-text-container'>
-                <GeneratedTextBox textOption={textOption} />
+                <GeneratedTextBox textOption={textOption} forceUpdate={forceUpdate} />
             </div>
         </div>
     );

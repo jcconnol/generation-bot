@@ -38,11 +38,18 @@ function GeneratedTextBox({ textOption }) {
              })
         }
 
-        await fetch(`https://l6ai92ysdi.execute-api.us-east-2.amazonaws.com/dev/api/generate`, params)
+        var response = await fetch(`https://l6ai92ysdi.execute-api.us-east-2.amazonaws.com/dev/api/generate`, params)
+        return response
+      };
+    
+      useEffect(() => {
+        fetchGeneratedText()
           .then(response => {
+            console.log("fetched!")
             return response.json()
           })
           .then(data => {
+
             console.log(data)
             console.log(data.phrases)
             setItems(data.phrases)
@@ -53,10 +60,6 @@ function GeneratedTextBox({ textOption }) {
             setItems(['Error fetching tickets!'])
             setLoading(false);
           })
-      };
-    
-      useEffect(() => {
-        fetchGeneratedText()
       }, [])
 
     return (
