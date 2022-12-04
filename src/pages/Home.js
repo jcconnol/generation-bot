@@ -13,13 +13,15 @@ function Home() {
     const [textOption, setTextOpt] = useState(defaultOption)
     const [forceUpdate, setForceUpdate] = useState(true)
 
-    function onSelect(event) {
+    const onSelect = (event) => {
+        console.log(event.value)
         setTextOpt(event.value)
         setForceUpdate(!forceUpdate)
     }
 
-    function onClickRegenerate() {
-        setTextOpt(textOption)
+    const onClickRegenerate = async (event) => {
+        await setTextOpt(null)
+        await setTextOpt(textOption)
     }
 
     return (
