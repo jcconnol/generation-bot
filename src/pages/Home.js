@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Dropdown from 'react-dropdown';
 import styles from 'react-dropdown/style.css';
 import ShowGenText from '../components/ShowGenText';
@@ -11,32 +11,32 @@ function Home() {
     ];
 
     var defaultOption = options[0];
-    const [textOption, setTextOpt] = useState(defaultOption)
-    const [textCategory, setTextCategory] = useState("")
+    const [textOption, setTextOpt] = useState("Poem")
     const [generatedItems ,setGeneratedItems] = useState([])
     const [loading, setLoading] = useState(false);
+    const [count, setCount] = useState(0);
 
-    const fetchGeneratedText = async () => {
-        console.log("run!")
-        switch (textOption) {
+    const fetchGeneratedText = async (textCategory) => {
+        switch (textCategory) {
           case 'Tweet':
-            setTextCategory("tweet")
+            textCategory = "tweet"
             break
           case 'Rap Song':
-            setTextCategory("rapSong")
+            textCategory = "rapSong"
             break
           case 'Poem':
-            setTextCategory("poem")
+            textCategory = "poem"
             break
           case 'Webpage':
-            setTextCategory("site")
+            textCategory = "site"
             break
           default:
-            setTextCategory("")
+            textCategory = ""
             break
         }
 
         if(textCategory){
+          console.log("text CAt")
           const params = {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
@@ -46,29 +46,36 @@ function Home() {
                 })
           }
 
+          var phrases = ['Error fetching generated text!']
+
           await fetch(`https://l6ai92ysdi.execute-api.us-east-2.amazonaws.com/dev/api/generate`, params)
             .then(response => {
               console.log("fetched!")
               return response.json()
             })
             .then(data => {
-              console.log(data)
-              console.log(data.phrases)
-              setGeneratedItems(data.phrases)
-              setLoading(false);
+              phrases = data.phrases
             })
-            .catch(err =>{
+            .catch(err => {
               console.log(err);
-              setGeneratedItems(['Error fetching generated text!'])
-              setLoading(false);
+              phrases = ['Error fetching generated text!']
             })
+          
+          setGeneratedItems(phrases)
+          setLoading(false);
+          console.log("generated items")
+          console.log(phrases)
+          console.log(loading)
         }
     };
 
     const onSelect = async (event) => {
-        console.log(event.value)
-        await fetchGeneratedText()
+        fetchGeneratedText(event.value)
     }
+
+    useEffect(() => {
+      fetchGeneratedText("Poem")
+    }, [textOption])
 
     return (
         <div>
@@ -79,14 +86,12 @@ function Home() {
                     menuClassName='gen-dropdown-menu'
                     options={options}
                     onChange={onSelect}
-                    value={defaultOption} />
+                    value={textOption} />
             </h1>
-            {/* <div className='regerate-button-container'>
-                <button className='regerate-button' onClick={onSelect}>Retrieve</button>
-            </div> */}
             <div className='gen-text-container'>
                 <div>
-                    {loading ? <ClipLoader /> : <ShowGenText textOption={textOption}  items={generatedItems} />}
+                    {/* {loading ? <ClipLoader /> : <ShowGenText textOption={textOption}  items={generatedItems} />} */}
+                    <ShowGenText textOption={textOption}  items={generatedItems} />
                 </div>
             </div>
         </div>

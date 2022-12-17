@@ -23,6 +23,8 @@ function PaginatedItems({ itemsPerPage, items }) {
     const [itemOffset, setItemOffset] = useState(0);
 
     function buildPagination() {
+        console.log("paginated")
+        console.log(currentItems)
         const endOffset = itemOffset + itemsPerPage;
     
         setCurrentItems(items.slice(itemOffset, endOffset));
