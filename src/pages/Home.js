@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import GeneratedTextBox from '../components/GeneratedTextBox';
 import Dropdown from 'react-dropdown';
 import styles from 'react-dropdown/style.css';
+import ShowGenText from '../components/ShowGenText';
 import "../styles/home.css"
+import ClipLoader from "react-spinners/ClipLoader";
 
 function Home() {
     const options = [
@@ -11,17 +12,62 @@ function Home() {
 
     var defaultOption = options[0];
     const [textOption, setTextOpt] = useState(defaultOption)
-    const [forceUpdate, setForceUpdate] = useState(true)
+    const [textCategory, setTextCategory] = useState("")
+    const [generatedItems ,setGeneratedItems] = useState([])
+    const [loading, setLoading] = useState(false);
 
-    const onSelect = (event) => {
+    const fetchGeneratedText = async () => {
+        console.log("run!")
+        switch (textOption) {
+          case 'Tweet':
+            setTextCategory("tweet")
+            break
+          case 'Rap Song':
+            setTextCategory("rapSong")
+            break
+          case 'Poem':
+            setTextCategory("poem")
+            break
+          case 'Webpage':
+            setTextCategory("site")
+            break
+          default:
+            setTextCategory("")
+            break
+        }
+
+        if(textCategory){
+          const params = {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ 
+                  'category': textCategory,
+                  'wordCount': 45 
+                })
+          }
+
+          await fetch(`https://l6ai92ysdi.execute-api.us-east-2.amazonaws.com/dev/api/generate`, params)
+            .then(response => {
+              console.log("fetched!")
+              return response.json()
+            })
+            .then(data => {
+              console.log(data)
+              console.log(data.phrases)
+              setGeneratedItems(data.phrases)
+              setLoading(false);
+            })
+            .catch(err =>{
+              console.log(err);
+              setGeneratedItems(['Error fetching generated text!'])
+              setLoading(false);
+            })
+        }
+    };
+
+    const onSelect = async (event) => {
         console.log(event.value)
-        setTextOpt(event.value)
-        setForceUpdate(!forceUpdate)
-    }
-
-    const onClickRegenerate = async (event) => {
-        await setTextOpt(null)
-        await setTextOpt(textOption)
+        await fetchGeneratedText()
     }
 
     return (
@@ -35,11 +81,13 @@ function Home() {
                     onChange={onSelect}
                     value={defaultOption} />
             </h1>
-            <div className='regerate-button-container'>
-                <button className='regerate-button' onClick={onClickRegenerate}>Retrieve</button>
-            </div>
+            {/* <div className='regerate-button-container'>
+                <button className='regerate-button' onClick={onSelect}>Retrieve</button>
+            </div> */}
             <div className='gen-text-container'>
-                <GeneratedTextBox textOption={textOption} forceUpdate={forceUpdate} />
+                <div>
+                    {loading ? <ClipLoader /> : <ShowGenText textOption={textOption}  items={generatedItems} />}
+                </div>
             </div>
         </div>
     );
