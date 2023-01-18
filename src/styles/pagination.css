@@ -2,3 +2,73 @@
     color: blue;
     font-size: x-large;
 }
+
+/* .paginated-items {
+    text-align: center;
+}
+
+UL, .paginated-items {
+    list-style: none;
+    text-align: center;
+    display: inline-block;
+    text-align: left;
+}
+
+LI {
+    float: left;
+    list-style: outside none none;
+    padding: 1%;
+} */
+
+li {
+    list-style: outside none none;
+}
+
+ul {
+    text-align: center;
+    padding: 2rem 0;
+    /* margin: auto; */
+    justify-content: center;
+    display: flex;
+}
+
+.paginated-items {
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    list-style-type: none;
+    padding: 0 5rem;
+}
+
+  li a {
+    padding: 0.1rem 0.5rem;
+    cursor: pointer;
+  }
+
+  li.previous a,
+  li.next a,
+  li.break a {
+    border-color: transparent;
+  }
+
+  li.active a {
+    background-color: #0366d6;
+    border-color: transparent;
+    color: white;
+    min-width: 10px;
+  }
+
+  li.disabled a {
+    color: grey;
+  }
+
+  li.disable,
+  li.disabled a {
+    cursor: default;
+  }
+
+  .next,
+  .previous {
+    padding: 0 4%;
+  }

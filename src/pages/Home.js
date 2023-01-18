@@ -2,10 +2,13 @@ import React, { useState, useEffect } from 'react';
 import Dropdown from 'react-dropdown';
 import styles from 'react-dropdown/style.css';
 import ShowGenText from '../components/ShowGenText';
+import PaginatedItems from "../components/ItemPage";
 import "../styles/home.css"
+import "../styles/pagination.css"
 import ClipLoader from "react-spinners/ClipLoader";
 
 function Home() {
+    var phrases = [] 
     const options = [
         'Poem', 'Tweet', 'Webpage', 'Rap Song'
     ];
@@ -17,36 +20,48 @@ function Home() {
     const [count, setCount] = useState(0);
 
     const fetchGeneratedText = async (textCategory) => {
+        var genLimit = 5;
+        var wordCount = 45;
         switch (textCategory) {
           case 'Tweet':
-            textCategory = "tweet"
+            textCategory = "tweets"
+            genLimit = 15;
+            wordCount = 45;
             break
           case 'Rap Song':
-            textCategory = "rapSong"
+            textCategory = "rapSongs"
+            genLimit = 5;
+            wordCount = 45;
             break
           case 'Poem':
-            textCategory = "poem"
+            textCategory = "poems"
+            genLimit = 15;
+            wordCount = 45;
             break
           case 'Webpage':
-            textCategory = "site"
+            textCategory = "sites"
+            genLimit = 3;
+            wordCount = 45;
             break
           default:
             textCategory = ""
+            genLimit = 0;
+            wordCount = 1;
             break
         }
 
         if(textCategory){
-          console.log("text CAt")
           const params = {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ 
                   'category': textCategory,
-                  'wordCount': 45 
+                  'wordCount': wordCount,
+                  'genLimit': genLimit
                 })
           }
 
-          var phrases = ['Error fetching generated text!']
+          phrases = ['Error fetching generated text!']
 
           await fetch(`https://l6ai92ysdi.execute-api.us-east-2.amazonaws.com/dev/api/generate`, params)
             .then(response => {
@@ -58,11 +73,10 @@ function Home() {
             })
             .catch(err => {
               console.log(err);
-              phrases = ['Error fetching generated text!']
             })
           
-          setGeneratedItems(phrases)
-          setLoading(false);
+          await setGeneratedItems(phrases)
+          await setLoading(false);
           console.log("generated items")
           console.log(phrases)
           console.log(loading)
@@ -70,7 +84,9 @@ function Home() {
     };
 
     const onSelect = async (event) => {
-        fetchGeneratedText(event.value)
+        // fetchGeneratedText(event.value)
+        setTextOpt("")
+        setTextOpt(event.value)
     }
 
     useEffect(() => {
@@ -89,9 +105,10 @@ function Home() {
                     value={textOption} />
             </h1>
             <div className='gen-text-container'>
-                <div>
+                <div className='paginated-items'>
                     {/* {loading ? <ClipLoader /> : <ShowGenText textOption={textOption}  items={generatedItems} />} */}
-                    <ShowGenText textOption={textOption}  items={generatedItems} />
+                    <PaginatedItems items={generatedItems} itemsPerPage={1} />
+                    {/* <ShowGenText textOption={textOption}  items={phrases} /> */}
                 </div>
             </div>
         </div>

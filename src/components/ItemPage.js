@@ -23,8 +23,6 @@ function PaginatedItems({ itemsPerPage, items }) {
     const [itemOffset, setItemOffset] = useState(0);
 
     function buildPagination() {
-        console.log("paginated")
-        console.log(currentItems)
         const endOffset = itemOffset + itemsPerPage;
     
         setCurrentItems(items.slice(itemOffset, endOffset));
@@ -32,15 +30,15 @@ function PaginatedItems({ itemsPerPage, items }) {
     }
 
     useEffect(() => {
-        // Fetch items from another resources.
         buildPagination()
     }, [itemOffset, itemsPerPage]);
 
-    // Invoke when user click to request another page.
     const handlePageClick = (event) => {
         const newOffset = (event.selected * itemsPerPage) % items.length;
         setItemOffset(newOffset);
     };
+
+    console.log(pageCount);
 
     return (
         <>
@@ -55,7 +53,6 @@ function PaginatedItems({ itemsPerPage, items }) {
                     pageRangeDisplayed={1}
                     pageCount={pageCount}
                     previousLabel="< previous"
-                    renderOnZeroPageCount={"No Text was retrieved. Please try again later."}
                     itemClass="page-item"
                     linkClass="page-link"
                 />

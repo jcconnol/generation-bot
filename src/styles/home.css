@@ -25,3 +25,8 @@
 .regerate-button-container {
     text-align: center;
 }
+
+.paginated-items {
+    text-align: center;
+    margin: auto;
+}
