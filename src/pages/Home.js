@@ -10,13 +10,13 @@ import ClipLoader from "react-spinners/ClipLoader";
 function Home() {
     var phrases = [] 
     const options = [
-        'Poem', 'Tweet', 'Webpage', 'Rap Song'
+        'Poem', 'Tweet', 'Rap Song'
     ];
 
     var defaultOption = options[0];
     const [textOption, setTextOpt] = useState("Poem")
     const [generatedItems ,setGeneratedItems] = useState([])
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [count, setCount] = useState(0);
 
     const fetchGeneratedText = async (textCategory) => {
@@ -25,7 +25,7 @@ function Home() {
         switch (textCategory) {
           case 'Tweet':
             textCategory = "tweets"
-            genLimit = 15;
+            genLimit = 10;
             wordCount = 45;
             break
           case 'Rap Song':
@@ -77,20 +77,17 @@ function Home() {
           
           await setGeneratedItems(phrases)
           await setLoading(false);
-          console.log("generated items")
-          console.log(phrases)
-          console.log(loading)
         }
     };
 
     const onSelect = async (event) => {
-        // fetchGeneratedText(event.value)
-        setTextOpt("")
-        setTextOpt(event.value)
+      fetchGeneratedText(event.value)
     }
 
     useEffect(() => {
-      fetchGeneratedText("Poem")
+      setLoading(true);
+      fetchGeneratedText("Poem");
+      setLoading(false);
     }, [textOption])
 
     return (
@@ -105,11 +102,9 @@ function Home() {
                     value={textOption} />
             </h1>
             <div className='gen-text-container'>
-                <div className='paginated-items'>
-                    {/* {loading ? <ClipLoader /> : <ShowGenText textOption={textOption}  items={generatedItems} />} */}
-                    <PaginatedItems items={generatedItems} itemsPerPage={1} />
-                    {/* <ShowGenText textOption={textOption}  items={phrases} /> */}
-                </div>
+              <div className='paginated-items'>
+                {loading ? <ClipLoader /> : <PaginatedItems items={generatedItems} itemsPerPage={1} />}
+              </div>
             </div>
         </div>
     );
