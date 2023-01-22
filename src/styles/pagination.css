@@ -3,23 +3,6 @@
     font-size: x-large;
 }
 
-/* .paginated-items {
-    text-align: center;
-}
-
-UL, .paginated-items {
-    list-style: none;
-    text-align: center;
-    display: inline-block;
-    text-align: left;
-}
-
-LI {
-    float: left;
-    list-style: outside none none;
-    padding: 1%;
-} */
-
 li {
     list-style: outside none none;
 }

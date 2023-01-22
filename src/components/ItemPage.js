@@ -31,14 +31,13 @@ function PaginatedItems({ itemsPerPage, items }) {
 
     useEffect(() => {
         buildPagination()
-    }, [itemOffset, itemsPerPage]);
+    }, [items]);
 
     const handlePageClick = (event) => {
         const newOffset = (event.selected * itemsPerPage) % items.length;
         setItemOffset(newOffset);
+        setCurrentItems([items[newOffset]])
     };
-
-    console.log(pageCount);
 
     return (
         <>
